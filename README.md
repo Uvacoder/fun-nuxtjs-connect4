@@ -1,42 +1,48 @@
-# Nuxt 3 Minimal Starter
+# Connect Four with Nuxt.js
+Connect Four is a two-player strategy game in which players take turns dropping colored discs into a grid, with the goal of getting four of their own color in a row either horizontally, vertically, or diagonally.
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This project is an implementation of Connect Four built with Nuxt3 and Supabase, a framework for building server-rendered Vue.js applications.
 
-## Setup
 
-Make sure to install the dependencies:
 
-```bash
-# yarn
-yarn install
+## Features
+- Responsive design for optimal play on any device
+- Multiplayer mode 
 
-# npm
-npm install
-
-# pnpm
-pnpm install --shamefully-hoist
-```
-
-## Development Server
-
-Start the development server on http://localhost:3000
+## Installation
+Install dependencies
 
 ```bash
-npm run dev
+pnpm install
 ```
 
-## Production
-
-Build the application for production:
+Start the development server
 
 ```bash
-npm run build
+pnpm dev
 ```
 
-Locally preview production build:
+## Testing
+Run unit tests
 
 ```bash
-npm run preview
+pnpm test:unit
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Run game tests
+
+```bash
+pnpm test:game
+```
+
+Run all tests
+
+```bash
+pnpm test
+```
+
+## Contributions
+Contributions are welcome! If you have an idea for a new feature or find a bug, please open an issue.
+
+## License
+This project is licensed under the MIT License.
