@@ -1,4 +1,4 @@
-# Connect Four with Nuxt.js
+# Connect Four with Nuxt3
 Connect Four is a two-player strategy game in which players take turns dropping colored discs into a grid, with the goal of getting four of their own color in a row either horizontally, vertically, or diagonally.
 
 This project is an implementation of Connect Four built with Nuxt3 and Supabase, a framework for building server-rendered Vue.js applications.
