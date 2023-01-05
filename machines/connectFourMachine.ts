@@ -1,7 +1,7 @@
 import {createMachine} from "xstate";
 
-createMachine({
-    id: "Puissance4",
+export default createMachine({
+    id: "connectFour",
     initial: "Lobby",
     states: {
         Lobby: {

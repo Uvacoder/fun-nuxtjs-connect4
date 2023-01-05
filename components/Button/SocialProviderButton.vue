@@ -37,7 +37,7 @@ const loginWithProvider = () => {
   background: transparent;
   padding: 10px;
   gap: 10px;
-  border-radius: 10px;
+  border-radius: 5px;
   border: 1px solid #3e3e3e;
   align-items: center;
   justify-content: center;
