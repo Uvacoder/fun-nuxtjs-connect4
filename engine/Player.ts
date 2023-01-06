@@ -6,12 +6,14 @@ interface Player {
     elo: number;
     isReady: boolean;
     isHost: boolean;
+    avatar?: string;
     timeLeft: number;
+    isMe: boolean;
 }
 
 class Player implements Player {
 
-    constructor(id: string, name: string, color: string, score: number, elo: number, isReady: boolean, isHost: boolean) {
+    constructor(id: string, name: string, color: string, score: number, elo: number, isReady: boolean, isHost: boolean, isMe: boolean, avatar?: string) {
         this.id = id;
         this.name = name;
         this.color = color;
@@ -19,6 +21,8 @@ class Player implements Player {
         this.elo = elo;
         this.isReady = isReady;
         this.isHost = isHost;
+        this.avatar = avatar;
+        this.isMe = isMe;
     }
 
     public getId(): string {
@@ -27,6 +31,18 @@ class Player implements Player {
 
     public getName(): string {
         return this.name;
+    }
+
+    public getIsMe(): boolean {
+        return this.isMe;
+    }
+
+    public getAvatar(): string {
+        return this.avatar || "";
+    }
+
+    public setAvatar(avatar: string): void {
+        this.avatar = avatar;
     }
 
     public getColor(): string {

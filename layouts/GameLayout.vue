@@ -5,9 +5,8 @@
 <template>
   <div class="GameLayout">
     <div class="GameLayoutHeader">
-
+      <slot name="header" />
     </div>
-
     <slot />
   </div>
 </template>
@@ -32,6 +31,12 @@ html {
   &Header {
     width: 100%;
     height: 65px;
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
     border-bottom: 1px solid #282828;
   }
 }

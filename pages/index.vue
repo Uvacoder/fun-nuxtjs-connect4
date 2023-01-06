@@ -30,6 +30,7 @@ const createGame = async () => {
     <Avatar :src="user.user_metadata.avatar_url" size="medium" alt="Avatar"/>
     <h1>Welcome {{ user.user_metadata.full_name }} <small>({{ user.email }})</small></h1>
   </div>
+  {{ user }}
 
   Status : ({{ pending ? 'loading' : 'loaded' }})
   {{ data }}
@@ -53,7 +54,6 @@ const createGame = async () => {
 
 body {
 
-  padding: 20px;
   font-family: 'Manrope', sans-serif;
   background: var(--bg-primary);
   color: var(--primary);

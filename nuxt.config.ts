@@ -9,5 +9,6 @@ export default defineNuxtConfig({
     css: [
         '~/assets/scss/reset.scss',
         '~/assets/scss/root.scss',
+        '~/assets/scss/transitions.scss'
     ]
 })

@@ -2,31 +2,41 @@
 
 import Connect4 from "~/engine/Connect4";
 import Player from "~/engine/Player";
-import {Ref} from "vue";
 import Board from "~/components/Game/Board.vue";
-definePageMeta({layout: 'game-layout'})
+import GameLayout from "~/layouts/GameLayout.vue";
+import {Ref} from "vue";
+
 
 enum PlayerColors {
-  RED = '#a42c2c',
-  YELLOW = '#a4902c',
+  RED = '#c71a1a',
+  YELLOW = '#fcd100',
   BLUE = '#2c4ea4',
   GREEN = '#4aa42c',
 }
 
-const player1 = new Player('1', "Player 1", PlayerColors.RED, 0, 0, true, true);
-const player2 = new Player('2', "Player 2", PlayerColors.YELLOW, 0, 0, true, false);
+const player1 = new Player('1', "Player 1", PlayerColors.RED, 0, 0, true, true, true, 'https://avatars.githubusercontent.com/u/75085249?v=4');
+const player2 = new Player('2', "Player 2", PlayerColors.YELLOW, 0, 0, true, false, false);
 
-const {connectFour} = useConnectFour([player1, player2], 6,7, 4, 300);
+const {connectFour} = useConnectFour([player1, player2], 6, 7, 4, 300);
 
+const isPlayerTurn = (player: Player) => {
+  return connectFour.value.getCurrentPlayer() === player;
+}
 </script>
 
 <template>
-  <ClientOnly>
-    <div class="GamePlay">
-      Player turn : {{ connectFour.getCurrentPlayer().getName() }}
-      <Board :board="connectFour.board" @play="connectFour.playToken($event)"/>
-    </div>
-  </ClientOnly>
+  <GameLayout>
+    <template v-slot:header>
+      <GameUserPane v-for="player in connectFour.getPlayers()" :key="player.getId()" :player="player"
+                    :currentPlayer="isPlayerTurn(player)"/>
+
+    </template>
+    <ClientOnly>
+      <div class="GamePlay">
+        <Board :board="connectFour.board" @play="connectFour.playToken($event)"/>
+      </div>
+    </ClientOnly>
+  </GameLayout>
 </template>
 
 

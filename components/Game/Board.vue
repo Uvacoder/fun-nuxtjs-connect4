@@ -29,7 +29,8 @@ const getHighlightedClass = (cell: Cell) => {
       <div v-for="column in board.getGrid()" :style="{gridTemplateRows: getGridTemplate(board.getRows())}"
            class="BoardRows">
         <div v-for="cell in column" class="BoardCell" @click="playColumn(cell.getColumn())">
-          <div class="BoardCellContent" :style="{backgroundColor: cell.getPlayer()?.getColor()}" :class="getHighlightedClass(cell)" />
+          <div class="BoardCellContent" :style="{backgroundColor: cell.getPlayer()?.getColor()}"
+               :class="getHighlightedClass(cell)"/>
         </div>
       </div>
     </div>
@@ -73,7 +74,6 @@ const getHighlightedClass = (cell: Cell) => {
     justify-content: center;
 
 
-
     &Content {
       width: 100px;
       height: 100px;
@@ -83,11 +83,11 @@ const getHighlightedClass = (cell: Cell) => {
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.2s ease-in-out;
       outline: none;
+      transition: all 0.2s ease-in-out;
 
       &Highlighted {
-        border: 5px solid rgb(255,255,255);
+        border: 5px solid rgb(255, 255, 255);
         //box-shadow: 0 0 0 4px rgba(255,255,255,.50);
       }
 
