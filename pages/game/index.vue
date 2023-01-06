@@ -8,10 +8,8 @@ import {Ref} from "vue";
 
 
 enum PlayerColors {
-  RED = '#c71a1a',
-  YELLOW = '#fcd100',
-  BLUE = '#2c4ea4',
-  GREEN = '#4aa42c',
+  RED = '#934646',
+  YELLOW = '#a1923f'
 }
 
 const player1 = new Player('1', "Player 1", PlayerColors.RED, 0, 0, true, true, true, 'https://avatars.githubusercontent.com/u/75085249?v=4');

@@ -5,7 +5,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test:game": "vitest test/game.spec.ts"
   },
   "devDependencies": {
     "@nuxtjs/supabase": "^0.3.0",

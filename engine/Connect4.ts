@@ -96,10 +96,15 @@ class Connect4 {
         this.currentPlayer = this.players[nextPlayerIndex];
     }
 
-    public playToken(column: number): void {
+    public getNextPlayer(): Player {
+        const nextPlayerIndex = (this.players.indexOf(this.currentPlayer) + 1) % this.players.length;
+        return this.players[nextPlayerIndex];
+    }
+
+    public playToken(column: number): boolean {
         // check if column is full or game is over
         if (this.board.isColumnFull(column) || this.isGameOver) {
-            return;
+            return false;
         }
 
         // play token
@@ -112,6 +117,23 @@ class Connect4 {
         // switch next player
         this.switchNextPlayer();
 
+        return true;
+
+    }
+
+    public getCell(column: number, row: number): Cell {
+        return this.board.getGrid()[column][row];
+    }
+
+    public getLowestEmptyRow(column: number): Cell {
+        const grid = this.board.getGrid();
+        for (let row = 0; row < this.rows; row++) {
+            if (grid[column][row].getPlayer() === undefined) {
+                return grid[column][row];
+            }
+        }
+
+        return grid[column][this.rows - 1];
     }
 
     public checkIfGameOver(): void {
