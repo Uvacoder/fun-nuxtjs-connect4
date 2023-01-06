@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import Board from "~/engine/Board";
+import Cell from "~/engine/Cell";
 
 interface BoardProps {
   board: Board
@@ -14,10 +15,12 @@ const getGridTemplate = (repeatValue: number) => {
 }
 
 const playColumn = (column: number) => {
-  console.log('play column', column);
   emit('play', column);
 }
 
+const getHighlightedClass = (cell: Cell) => {
+  return cell.getIsHighlighted() ? "BoardCellContentHighlighted" : "";
+}
 </script>
 
 <template>
@@ -26,8 +29,7 @@ const playColumn = (column: number) => {
       <div v-for="column in board.getGrid()" :style="{gridTemplateRows: getGridTemplate(board.getRows())}"
            class="BoardRows">
         <div v-for="cell in column" class="BoardCell" @click="playColumn(cell.getColumn())">
-          <div class="BoardCellContent" :style="{backgroundColor: cell.getPlayer()?.getColor() }">
-          </div>
+          <div class="BoardCellContent" :style="{backgroundColor: cell.getPlayer()?.getColor()}" :class="getHighlightedClass(cell)" />
         </div>
       </div>
     </div>
@@ -70,6 +72,8 @@ const playColumn = (column: number) => {
     align-items: center;
     justify-content: center;
 
+
+
     &Content {
       width: 100px;
       height: 100px;
@@ -81,6 +85,11 @@ const playColumn = (column: number) => {
       cursor: pointer;
       transition: all 0.2s ease-in-out;
       outline: none;
+
+      &Highlighted {
+        border: 5px solid rgb(255,255,255);
+        //box-shadow: 0 0 0 4px rgba(255,255,255,.50);
+      }
 
     }
   }

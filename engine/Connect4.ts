@@ -2,6 +2,7 @@ import Player from "~/engine/Player";
 import Board from "~/engine/Board";
 import {useMachine} from "@xstate/vue";
 import connectFourMachine from "~/machines/connectFourMachine";
+import Cell from "~/engine/Cell";
 
 class Connect4 {
 
@@ -124,8 +125,90 @@ class Connect4 {
         }
     }
 
+    public getPlayerTurn(): Player {
+        return this.currentPlayer;
+    }
+
+    public getWinningCells(): any {
+        // get cells that are part of the winning line of 4
+        const grid = this.board.getGrid();
+        const winningCells = [];
+        for (let column = 0; column < this.columns; column++) {
+            for (let row = 0; row < this.rows - this.winningLength + 1; row++) {
+                let count = 0;
+                for (let i = 0; i < this.winningLength; i++) {
+                    if (grid[column][row + i].getPlayer() === this.currentPlayer) {
+                        count++;
+                        winningCells.push(grid[column][row + i]);
+                    }
+                }
+                if (count === this.winningLength) {
+                    return winningCells;
+                }
+            }
+        }
+
+        for (let column = 0; column < this.columns - this.winningLength + 1; column++) {
+            for (let row = 0; row < this.rows; row++) {
+                let count = 0;
+                for (let i = 0; i < this.winningLength; i++) {
+                    if (grid[column + i][row].getPlayer() === this.currentPlayer) {
+                        count++;
+                        winningCells.push(grid[column + i][row]);
+                    }
+                }
+                if (count === this.winningLength) {
+                    return winningCells;
+                }
+            }
+        }
+
+        for (let column = 0; column < this.columns - this.winningLength + 1; column++) {
+            for (let row = 0; row < this.rows - this.winningLength + 1; row++) {
+                let count = 0;
+                for (let i = 0; i < this.winningLength; i++) {
+                    if (grid[column + i][row + i].getPlayer() === this.currentPlayer) {
+                        count++;
+                        winningCells.push(grid[column + i][row + i]);
+                    }
+                }
+                if (count === this.winningLength) {
+                    return winningCells;
+                }
+            }
+        }
+
+        for (let column = this.columns - 1; column >= this.winningLength - 1; column--) {
+            for (let row = 0; row < this.rows - this.winningLength + 1; row++) {
+                let count = 0;
+                for (let i = 0; i < this.winningLength; i++) {
+                    if (grid[column - i][row + i].getPlayer() === this.currentPlayer) {
+                        count++;
+                        winningCells.push(grid[column - i][row + i]);
+                    }
+                }
+                if (count === this.winningLength) {
+                    return winningCells;
+                }
+            }
+        }
+
+        return winningCells;
+    }
+
+
     public checkIfWinner(): boolean {
-        return this.checkIfHorizontalWinner() || this.checkIfVerticalWinner() || this.checkIfDiagonalWinner();
+        if (this.checkIfHorizontalWinner() || this.checkIfVerticalWinner() || this.checkIfDiagonalWinner()) {
+            // get the 4 winning cells and set them to setIsHighlighted(true)
+            const winningCells = this.getWinningCells();
+            for (let i = 0; i < winningCells.length; i++) {
+                winningCells[i].setIsHighlighted(true);
+            }
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     public checkIfHorizontalWinner(): boolean {
@@ -206,7 +289,6 @@ class Connect4 {
         }
         return true;
     }
-
 
 
 }

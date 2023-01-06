@@ -6,12 +6,14 @@ class Cell {
     private readonly column: number;
     private player?: Player;
     private isAlive: boolean;
+    private isHighlighted: boolean;
 
     constructor(row: number, column: number) {
         this.row = row;
         this.column = column;
         this.player = undefined;
         this.isAlive = false;
+        this.isHighlighted = false;
     }
 
     public getRow(): number {
@@ -28,6 +30,14 @@ class Cell {
 
     public getIsAlive(): boolean {
         return this.isAlive;
+    }
+
+    public setIsHighlighted(isHighlighted: boolean): void {
+        this.isHighlighted = isHighlighted;
+    }
+
+    public getIsHighlighted(): boolean {
+        return this.isHighlighted;
     }
 
     public setPlayer(player: Player): void {
