@@ -23,12 +23,6 @@ pnpm dev
 ```
 
 ## Testing
-Run unit tests
-
-```bash
-pnpm test:unit
-```
-
 Run game tests
 
 ```bash
