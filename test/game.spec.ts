@@ -84,19 +84,39 @@ describe('connectFourEngine', () => {
 
     test('Test if player 2 wins', () => {
 
-            connect4.setCurrentPlayer(player2);
+        connect4.setCurrentPlayer(player2);
 
+        connect4.playToken(0); // player 2
+        connect4.playToken(0); // player 1
+        connect4.playToken(1); // player 2
+        connect4.playToken(1); // player 1
+        connect4.playToken(2); // player 2
+        connect4.playToken(2); // player 1
+        connect4.playToken(3); // player 2
+
+        expect(connect4.getIsGameOver()).toBe(true);
+        expect(connect4.getWinner()).toBe(player2);
+    });
+
+
+    // the yellow player should win in this scenario
+    test('Test if game is a draw', () => {
+
+        connect4.setCurrentPlayer(player2);
+
+        for (let i = 0; i < 7; i++) {
             connect4.playToken(0); // player 1
-            connect4.playToken(0); // player 2
-            connect4.playToken(1); // player 1
             connect4.playToken(1); // player 2
             connect4.playToken(2); // player 1
-            connect4.playToken(2); // player 2
-            connect4.playToken(3); // player 1
             connect4.playToken(3); // player 2
+            connect4.playToken(4); // player 1
+            connect4.playToken(5); // player 2
+            connect4.playToken(6); // player 1
+        }
 
-            expect(connect4.getIsGameOver()).toBe(true);
-            expect(connect4.getWinner()).toBe(player2);
+        expect(connect4.getIsGameOver()).toBe(true);
+        expect(connect4.getWinner()).toBe(player1);
+
     });
 
 })
