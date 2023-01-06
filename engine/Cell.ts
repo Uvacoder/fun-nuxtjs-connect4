@@ -38,6 +38,10 @@ class Cell {
         this.isAlive = isAlive;
     }
 
+    public isOccupied(): boolean {
+        return this.player !== undefined;
+    }
+
 }
 
 export default Cell;

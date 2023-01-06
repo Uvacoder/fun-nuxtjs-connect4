@@ -2,7 +2,6 @@ import Player from "~/engine/Player";
 import Board from "~/engine/Board";
 import {useMachine} from "@xstate/vue";
 import connectFourMachine from "~/machines/connectFourMachine";
-import {BaseActionObject, ResolveTypegenMeta, ServiceMap, State, TypegenDisabled} from "xstate";
 
 class Connect4 {
 
@@ -16,7 +15,6 @@ class Connect4 {
     private isGameOver: boolean;
     private winner: Player | undefined;
     private isDraw: boolean;
-    public gameState = useMachine(connectFourMachine).state.value.value;
 
     constructor(players: Array<Player>, rows: number, columns: number, winningLength: number, timeLimitPerPlayer: number) {
         this.players = players;
@@ -31,17 +29,13 @@ class Connect4 {
         this.isDraw = false;
     }
 
-    public getPlayers(): Array<Player> {
-        return this.players;
-    }
-
-    public getGameState(): string {
-        return <string>this.gameState;
-    }
-
     public initializeRandomPlayer(): Player {
         const randomIndex = Math.floor(Math.random() * this.players.length);
         return this.players[randomIndex];
+    }
+
+    public getPlayers(): Array<Player> {
+        return this.players;
     }
 
     public getBoard(): Board {
@@ -52,7 +46,7 @@ class Connect4 {
         return this.winningLength;
     }
 
-    public gettimeLimitPerPlayer(): number {
+    public getTimeLimitPerPlayer(): number {
         return this.timeLimitPerPlayer;
     }
 
@@ -80,11 +74,15 @@ class Connect4 {
         return this.isDraw;
     }
 
+    public setCurrentPlayer(currentPlayer: Player): void {
+        this.currentPlayer = currentPlayer;
+    }
+
     public setIsGameOver(isGameOver: boolean): void {
         this.isGameOver = isGameOver;
     }
 
-    public setWinner(winner: Player): void {
+    public setWinner(winner: Player | undefined): void {
         this.winner = winner;
     }
 
@@ -97,10 +95,29 @@ class Connect4 {
         this.currentPlayer = this.players[nextPlayerIndex];
     }
 
+    public playToken(column: number): void {
+        // check if column is full or game is over
+        if (this.board.isColumnFull(column) || this.isGameOver) {
+            return;
+        }
+
+        // play token
+        const row = this.board.getLowestEmptyRow(column);
+        this.board.getGrid()[column][row].setPlayer(this.currentPlayer);
+
+        // check if game is over
+        this.checkIfGameOver();
+
+        // switch next player
+        this.switchNextPlayer();
+
+    }
+
     public checkIfGameOver(): void {
         if (this.checkIfWinner()) {
             this.setIsGameOver(true);
             this.setWinner(this.currentPlayer);
+            console.log("Game over! Winner is " + this.currentPlayer.getName());
         } else if (this.checkIfDraw()) {
             this.setIsGameOver(true);
             this.setIsDraw(true);
@@ -112,11 +129,12 @@ class Connect4 {
     }
 
     public checkIfHorizontalWinner(): boolean {
+        const grid = this.board.getGrid();
         for (let column = 0; column < this.columns; column++) {
             for (let row = 0; row < this.rows - this.winningLength + 1; row++) {
                 let count = 0;
                 for (let i = 0; i < this.winningLength; i++) {
-                    if (this.board.getCell(row + i, column).getPlayer() === this.currentPlayer) {
+                    if (grid[column][row + i].getPlayer() === this.currentPlayer) {
                         count++;
                     }
                 }
@@ -129,11 +147,12 @@ class Connect4 {
     }
 
     public checkIfVerticalWinner(): boolean {
+        const grid = this.board.getGrid();
         for (let column = 0; column < this.columns - this.winningLength + 1; column++) {
             for (let row = 0; row < this.rows; row++) {
                 let count = 0;
                 for (let i = 0; i < this.winningLength; i++) {
-                    if (this.board.getCell(row, column + i).getPlayer() === this.currentPlayer) {
+                    if (grid[column + i][row].getPlayer() === this.currentPlayer) {
                         count++;
                     }
                 }
@@ -146,15 +165,12 @@ class Connect4 {
     }
 
     public checkIfDiagonalWinner(): boolean {
-        return this.checkIfLeftDiagonalWinner() || this.checkIfRightDiagonalWinner();
-    }
-
-    public checkIfLeftDiagonalWinner(): boolean {
+        const grid = this.board.getGrid();
         for (let column = 0; column < this.columns - this.winningLength + 1; column++) {
             for (let row = 0; row < this.rows - this.winningLength + 1; row++) {
                 let count = 0;
                 for (let i = 0; i < this.winningLength; i++) {
-                    if (this.board.getCell(row + i, column + i).getPlayer() === this.currentPlayer) {
+                    if (grid[column + i][row + i].getPlayer() === this.currentPlayer) {
                         count++;
                     }
                 }
@@ -163,15 +179,11 @@ class Connect4 {
                 }
             }
         }
-        return false;
-    }
-
-    public checkIfRightDiagonalWinner(): boolean {
-        for (let column = this.winningLength - 1; column < this.columns; column++) {
-            for (let row = 0; row < this.rows - this.winningLength + 1; row++) {
+        for (let column = 0; column < this.columns - this.winningLength + 1; column++) {
+            for (let row = this.rows - 1; row >= this.winningLength - 1; row--) {
                 let count = 0;
                 for (let i = 0; i < this.winningLength; i++) {
-                    if (this.board.getCell(row + i, column - i).getPlayer() === this.currentPlayer) {
+                    if (grid[column + i][row - i].getPlayer() === this.currentPlayer) {
                         count++;
                     }
                 }
@@ -184,15 +196,19 @@ class Connect4 {
     }
 
     public checkIfDraw(): boolean {
-        return this.board.getCells().every(cell => cell.getPlayer() !== undefined);
+        const grid = this.board.getGrid();
+        for (let column = 0; column < this.columns; column++) {
+            for (let row = 0; row < this.rows; row++) {
+                if (grid[column][row].getPlayer() === undefined) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
-    public play(column: number): void {
-        const row = this.board.getLowestEmptyRow(column);
-        this.board.getCell(row, column).setPlayer(this.currentPlayer);
-        this.checkIfGameOver();
-        this.switchNextPlayer();
-    }
+
+
 }
 
 export default Connect4;
