@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface GameCountdownProps {
-  time: number
+  time: string
 }
 
 const {time} = defineProps<GameCountdownProps>();

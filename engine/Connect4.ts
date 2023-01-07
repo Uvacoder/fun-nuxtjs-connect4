@@ -1,7 +1,5 @@
 import Player from "~/engine/Player";
 import Board from "~/engine/Board";
-import {useMachine} from "@xstate/vue";
-import connectFourMachine from "~/machines/connectFourMachine";
 import Cell from "~/engine/Cell";
 
 class Connect4 {
@@ -32,6 +30,11 @@ class Connect4 {
 
     public initializeRandomPlayer(): Player {
         const randomIndex = Math.floor(Math.random() * this.players.length);
+
+        this.getPlayers().forEach((player: Player) => {
+            player.setTimeLeft(this.timeLimitPerPlayer);
+        });
+
         return this.players[randomIndex];
     }
 

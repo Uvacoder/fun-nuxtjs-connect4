@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 interface Player {
     id: string;
     name: string;
@@ -94,8 +96,13 @@ class Player implements Player {
         this.isHost = isHost;
     }
 
-    public getTimeLeft(): number {
-        return this.timeLeft;
+    public getTimeLeft(): string {
+        const minutes = Math.floor(this.timeLeft / 60);
+        const seconds = this.timeLeft % 60;
+        return minutes > 0 && seconds > 0 ? `${minutes}min ${seconds}s` :
+            minutes > 0 && seconds === 0 ? `${minutes}min` :
+                minutes === 0 && seconds > 0 ? `${seconds}s` :
+                    "0s";
     }
 
     public setTimeLeft(timeLeft: number): void {

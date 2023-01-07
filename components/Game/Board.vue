@@ -26,9 +26,9 @@ const getHighlightedClass = (cell: Cell) => {
 <template>
   <div class="Board">
     <div :style="{gridTemplateColumns: getGridTemplate(board.getColumns())}" class="BoardColumns">
-      <div v-for="column in board.getGrid()" :style="{gridTemplateRows: getGridTemplate(board.getRows())}"
+      <div v-for="column in board.getGrid()" @click="playColumn(column[0].getColumn())" :style="{gridTemplateRows: getGridTemplate(board.getRows())}"
            class="BoardRows">
-        <div v-for="cell in column" class="BoardCell" @click="playColumn(cell.getColumn())">
+        <div v-for="cell in column" class="BoardCell">
           <div class="BoardCellContent" :style="{backgroundColor: cell.getPlayer()?.getColor()}"
                :class="getHighlightedClass(cell)"/>
         </div>

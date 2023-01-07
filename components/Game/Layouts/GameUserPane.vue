@@ -3,12 +3,13 @@ import Player from "~/engine/Player";
 
 interface GameAvatarProps {
   player: Player
-  alignment: 'left' | 'right',
-  active: boolean
+  alignment?: 'left' | 'right',
+  active?: boolean
 }
 
 const {player, alignment, active} = withDefaults(defineProps<GameAvatarProps>(), {
   alignment: 'left',
+  active: false
 });
 
 const getPlayerColor = computed(() => {

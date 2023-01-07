@@ -15,7 +15,7 @@ enum PlayerColors {
 const player1 = new Player('1', "Player 1", PlayerColors.RED, 0, 0, true, true, true, 'https://avatars.githubusercontent.com/u/75085249?v=4');
 const player2 = new Player('2', "Player 2", PlayerColors.YELLOW, 0, 0, true, false, false);
 
-const {connectFour} = useConnectFour([player1, player2], 6, 7, 4, 300);
+const {connectFour} = useConnectFour([player1, player2], 6, 7, 4, 125);
 
 const isPlayerTurn = (player: Player) => {
   return connectFour.value.getCurrentPlayer() === player;
